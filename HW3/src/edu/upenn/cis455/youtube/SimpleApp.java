@@ -1,5 +1,8 @@
 package edu.upenn.cis455.youtube;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import rice.p2p.commonapi.Id; 
 import rice.p2p.commonapi.Message; 
 import rice.p2p.commonapi.Node; 
@@ -12,7 +15,7 @@ public class SimpleApp implements Application {
 	NodeFactory nodeFactory; 
 	Node node; 
 	Endpoint endpoint;
-	
+
 	public SimpleApp(NodeFactory nodeFactory) { 
 		this.nodeFactory = nodeFactory; 
 		this.node = nodeFactory.getNode(); 
@@ -27,13 +30,24 @@ public class SimpleApp implements Application {
 
 	public void deliver(Id id, Message message) { 
 		OurMessage om = (OurMessage) message; 
+		YouTubeClient youTubeClient = YouTubeClient.GetSingleton(null);
 		System.out.println("Received message " + om.content +  
 				" from " + om.from); 
-		
+
 		if(om.content.equals("PING")){
 			OurMessage pong = new OurMessage(node.getLocalNodeHandle(), "PONG");
 			pong.wantResponse = false;
 			endpoint.route(null, pong, om.from);
+		}
+		else if(om.content.startsWith("SEARCH")){
+			Pattern contentPatt = Pattern.compile("SEARCH /(.*)/");
+			Matcher m = contentPatt.matcher(om.content);
+			OurMessage result = new OurMessage(node.getLocalNodeHandle(), "RESULT "+youTubeClient.SearchVideos(m.group(1)));
+			result.wantResponse = false;
+			endpoint.route(null, result, om.from);
+		}
+		else if(om.content.startsWith("RESULT")){
+			// send the content back to the servlet thru the socket
 		}
 		if (om.wantResponse) { 
 			OurMessage reply = new OurMessage(node.getLocalNodeHandle(), 
@@ -50,5 +64,5 @@ public class SimpleApp implements Application {
 		// This method will always return true in your assignment 
 		return true; 
 	} 
-	
+
 } 

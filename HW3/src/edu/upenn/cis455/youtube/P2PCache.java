@@ -21,17 +21,14 @@ public class P2PCache {
 				daemonPortNum = Integer.parseInt(args[3]);
 				pathToBDB = args[4];
 				
+				// Instatntiate you tube client 
+				YouTubeClient youTubeClient = YouTubeClient.GetSingleton(null);
+				
 				// Instantiate nodefactory
 				InetSocketAddress bootAddr = new InetSocketAddress(bootInetAddr, bootPortNum);
 				NodeFactory nodeFac = new NodeFactory(localPortNum, bootAddr);
 				SimpleApp simpleApp = new SimpleApp(nodeFac);
 				
-				String msg1 = "Madhura is cute";
-				String msg2 = "Madhura is really cute";
-				String msg3 = "Madhura is really really cute";
-				simpleApp.sendMessage(nodeFac.getIdFromString(msg1), msg1);
-				simpleApp.sendMessage(nodeFac.getIdFromString(msg2), msg2);
-				simpleApp.sendMessage(nodeFac.getIdFromString(msg3), msg3);
 				
 			}
 		}
