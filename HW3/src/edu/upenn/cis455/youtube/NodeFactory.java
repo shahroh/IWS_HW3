@@ -24,16 +24,16 @@ public class NodeFactory {
 	NodeHandle bootHandle;
 	int createdCount = 0;
 	int port;
-	
+
 	NodeFactory(int port) {
 		this(new Environment(), port);
 	}	
-	
+
 	NodeFactory(int port, InetSocketAddress bootPort) {
 		this(port);
 		bootHandle = factory.getNodeHandle(bootPort);
 	}
-	
+
 	NodeFactory(Environment env, int port) {
 		this.env = env;
 		this.port = port;
@@ -43,9 +43,9 @@ public class NodeFactory {
 		} catch (java.io.IOException ioe) {
 			throw new RuntimeException(ioe.getMessage(), ioe);
 		}
-		
+
 	}
-	
+
 	public Node getNode() {
 		try {
 			System.out.println("getnode: 1");
@@ -58,10 +58,10 @@ public class NodeFactory {
 				}
 			}
 			System.out.println("getnode: 2");
-			
+
 			PastryNode node =  factory.newNode(bootHandle);
 			System.out.println("getnode: 3");
-			
+
 			synchronized (node) {
 				while (!node.isReady() && ! node.joinFailed()) {
 					System.out.println("getnode: while");
@@ -73,7 +73,7 @@ public class NodeFactory {
 				}
 			}
 			System.out.println("getnode: 4");
-			
+
 			synchronized (this) {
 				++createdCount;
 			}
@@ -84,16 +84,16 @@ public class NodeFactory {
 			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
-	
+
 	public void shutdownNode(Node n) {
 		((PastryNode) n).destroy();
-		
+
 	}
-	
+
 	public Id getIdFromBytes(byte[] material) {
 		return Id.build(material);
 	}
-	
+
 	public Id getIdFromString(String keyString) {
 		MessageDigest md = null;
 		try {
@@ -106,5 +106,9 @@ public class NodeFactory {
 		byte shaDigest[] = md.digest();
 
 		return Id.build(shaDigest);
+	}
+
+	public Id generateRandomId(){
+		return nidFactory.generateNodeId();
 	}
 }

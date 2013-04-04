@@ -3,7 +3,9 @@ SEAS login: shahroh
 
 Which features did you implement? 
   (list features, or write 'Entire assignment')
-Entire Assignment
+PingPong implemented in PingPongTest.
+ClassPaths: run /HW3/target/classes/cp.sh
+
 
 Did you complete any extra-credit tasks? If so, which ones?
   (list extra-credit tasks)

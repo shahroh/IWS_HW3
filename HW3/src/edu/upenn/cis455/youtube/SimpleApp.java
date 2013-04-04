@@ -22,13 +22,19 @@ public class SimpleApp implements Application {
 
 	void sendMessage(Id idToSendTo, String msgToSend) { 
 		OurMessage m = new OurMessage(node.getLocalNodeHandle(), msgToSend); 
-		endpoint.route(idToSendTo, m, null); 
-	} 
+		endpoint.route(idToSendTo, m, null);
+	}
 
 	public void deliver(Id id, Message message) { 
 		OurMessage om = (OurMessage) message; 
 		System.out.println("Received message " + om.content +  
 				" from " + om.from); 
+		
+		if(om.content.equals("PING")){
+			OurMessage pong = new OurMessage(node.getLocalNodeHandle(), "PONG");
+			pong.wantResponse = false;
+			endpoint.route(null, pong, om.from);
+		}
 		if (om.wantResponse) { 
 			OurMessage reply = new OurMessage(node.getLocalNodeHandle(), 
 					"Message received"); 

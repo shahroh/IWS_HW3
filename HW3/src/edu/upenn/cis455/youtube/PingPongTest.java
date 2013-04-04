@@ -3,7 +3,11 @@ package edu.upenn.cis455.youtube;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
-public class P2PCache {
+import rice.environment.Environment;
+import rice.p2p.commonapi.Id;
+import rice.pastry.NodeIdFactory;
+
+public class PingPongTest {
 
 	static int localPortNum;
 	static InetAddress bootInetAddr;
@@ -20,19 +24,22 @@ public class P2PCache {
 				bootPortNum = Integer.parseInt(args[2]);
 				daemonPortNum = Integer.parseInt(args[3]);
 				pathToBDB = args[4];
-				
+
 				// Instantiate nodefactory
 				InetSocketAddress bootAddr = new InetSocketAddress(bootInetAddr, bootPortNum);
 				NodeFactory nodeFac = new NodeFactory(localPortNum, bootAddr);
 				SimpleApp simpleApp = new SimpleApp(nodeFac);
+				Environment env = new Environment();
 				
-				String msg1 = "Madhura is cute";
-				String msg2 = "Madhura is really cute";
-				String msg3 = "Madhura is really really cute";
-				simpleApp.sendMessage(nodeFac.getIdFromString(msg1), msg1);
-				simpleApp.sendMessage(nodeFac.getIdFromString(msg2), msg2);
-				simpleApp.sendMessage(nodeFac.getIdFromString(msg3), msg3);
-				
+				String msg = "PING";
+
+				for (int i = 0; i < 10; i++) {
+					Id randId = nodeFac.generateRandomId();
+					simpleApp.sendMessage(randId, msg);
+					env.getTimeSource().sleep(3000);
+				}
+
+
 			}
 		}
 		catch(Exception e){
