@@ -76,9 +76,7 @@ public class YouTubeSearch extends HttpServlet {
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			String responseStr = "";
-			while((responseStr += in.readLine()) != null){
-				System.out.println("inside readline: "+responseStr);
-			}
+			responseStr += in.readLine();
 			System.out.println(responseStr);
 
 			System.out.println("in done");
@@ -91,7 +89,7 @@ public class YouTubeSearch extends HttpServlet {
 			response.setContentType("text/html");
 			PrintWriter outBack = response.getWriter();
 			//outBack.println(resultTitle + resultList);
-			outBack.println(resultTitle + response);
+			outBack.println(resultTitle + responseStr);
 
 		}
 		catch(Exception e){

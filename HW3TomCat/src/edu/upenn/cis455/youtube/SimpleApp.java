@@ -87,9 +87,11 @@ public class SimpleApp implements Application {
 		}
 		else if(om.content.startsWith("RESULT")){
 			try{
+				System.out.println("RESULT******************");
 				Socket clientSocket = P2PCache.GetClientSocket();
 				OutputStream out = clientSocket.getOutputStream();
 				out.write((om.content.substring(7)).getBytes());
+				out.write("\n".getBytes());
 			}
 			catch(Exception e){
 				
