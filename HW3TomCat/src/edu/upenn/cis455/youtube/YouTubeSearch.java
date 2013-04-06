@@ -1,7 +1,11 @@
 package edu.upenn.cis455.youtube;
-
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.*;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -59,38 +63,68 @@ public class YouTubeSearch extends HttpServlet {
 		ServletConfig config = getServletConfig();
 		
 		int daemonPort = Integer.parseInt(getServletContext().getInitParameter("cacheServerPort"));
-		System.out.println();
+		
         String ipAddress = getServletContext().getInitParameter("cacheServer");
-		System.out.println("IP and Port:" + ipAddress + daemonPort);
+        System.out.println("daemon and port: "+ipAddress + daemonPort);
         // Open socket to the designated daemon thread 
 		try{
 			Socket clientSocket = new Socket(ipAddress, daemonPort); // I DONT KNOW IF THE NAME IS RIGHT
 			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 
 			// Send the QUERY to the daemon thread
-			System.out.println("GET /keyword/"+keyword);
 			out.println("GET /keyword/"+keyword);
 			out.println("/n");
 			out.flush();
-			System.out.println("out done");
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			String responseStr = "";
 			responseStr += in.readLine();
-			System.out.println(responseStr);
 
-			System.out.println("in done");
 			// Display the results as the final result of the POST request
 			String resultTitle = "<HTML><HEAD><TITLE>Rohan's DHT based YouTube Search Machine Results</TITLE></HEAD><BODY>"+
 					"<form name=\"input\" action=\"YouTubeSearch\" method=\"post\">"+
 					"<h1> Full name: Rohan Shah SEAS login: shahroh"+
 					" Rohan's DHT based YouTube Search Machine Results </h1><br/>";
 
+			String resultEnd = "</BODY></HTML>";
 			response.setContentType("text/html");
 			PrintWriter outBack = response.getWriter();
 			//outBack.println(resultTitle + resultList);
-			outBack.println(resultTitle + responseStr);
-
+						
+			// DOM parser to parse the returned XML doc
+			// Adding xml  to top of string 
+			String str = "<?xml version=\"1.0\"?>" + responseStr;
+			str = str.replaceAll("[&]", "&amp;");
+			System.out.println(str);
+			InputStream is = new ByteArrayInputStream(str.getBytes());
+			
+			/*
+			DocumentBuilderFactory dbFac = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbFac.newDocumentBuilder();
+			
+			System.out.println("before db prse");
+			Document d = db.parse(is);
+			System.out.println("after db prse");
+			
+			String outParsed = "	";
+			NodeList nl = d.getElementsByTagName("video-feed");
+			System.out.println("length of nodelist: "+nl.getLength());
+			for(int i=0; i<nl.getLength(); i++){
+				System.out.println("in the loop");
+				// for each entry, get title, url.
+				Node n = nl.item(i);
+				if(n.getNodeType() == n.ELEMENT_NODE){
+					Element e = (Element) n;
+					outParsed += "<p>" + e.getElementsByTagName("title") + ", " + e.getElementsByTagName("url") + "<p><br/>";
+				}
+			}
+			
+			outBack.println(resultTitle + outParsed + resultEnd);
+			System.out.println(resultTitle + outParsed + resultEnd);
+			*/
+			
+			outBack.println(resultTitle + responseStr + resultEnd);
+			clientSocket.close();
 		}
 		catch(Exception e){
 

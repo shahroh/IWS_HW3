@@ -60,7 +60,7 @@ public class P2PCache {
 						if(inQuery.matches("GET /keyword/.*")){
 							System.out.println("received GET request");
 							kword = inQuery.substring(inQuery.lastIndexOf('/')+1);
-							
+											
 							// construct SOAP message for DHT
 							String Query = "QUERY "+kword;
 							System.out.println("About to throw into DHT");
@@ -68,6 +68,9 @@ public class P2PCache {
 							simpleApp.sendMessage(destId, Query);
 						}
 					}
+					//in.close();
+					//out.close();
+					//clientSocket.close();
 
 				}
 				

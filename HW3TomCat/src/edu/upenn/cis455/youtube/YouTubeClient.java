@@ -201,47 +201,54 @@ public class YouTubeClient {
 	}
 
 	public static String XmlEntries(String prefix, VideoEntry videoEntry){
-		String entryText = "<prefix>"+prefix+"</prefix>";
+		String entryText = ""; 
+		//String entryText = "<prefix>"+prefix+"</prefix>";
 
 		if (videoEntry.getTitle() != null) {
-			entryText += "<title>";
+			entryText += "<td>";
 			entryText += "Title: "+ videoEntry.getTitle().getPlainText();
-			entryText += "</title>";
+			entryText += "</td>";
 		}
+		/*
 		if (videoEntry.getSummary() != null) {
 			entryText += "<summary>";
 			entryText += "Summary: "+videoEntry.getSummary().getPlainText();
 			entryText += "</summary>";
 		}
+		*/
 		YouTubeMediaGroup mediaGroup = videoEntry.getMediaGroup();
 		if(mediaGroup != null) {
 			MediaPlayer mediaPlayer = mediaGroup.getPlayer();
-			entryText += "<url>";
+			entryText += "<td>";
 			entryText += mediaPlayer.getUrl();
-			entryText += "</url>";
-			MediaKeywords keywords = mediaGroup.getKeywords();
-			entryText += "<keywords>";
-			for(String keyword : keywords.getKeywords()) {
-				entryText += keyword + ",";
-			}
-			entryText += "</keywords>";
-			entryText += "<thumbnails>";
+			entryText += "</td>";
+			//MediaKeywords keywords = mediaGroup.getKeywords();
+			//entryText += "<keywords>";
+			//for(String keyword : keywords.getKeywords()) {
+				//entryText += keyword + ",";
+			//}
+			//entryText += "</keywords>";
+			//entryText += "<thumbnails>";
+			/*
 			for(MediaThumbnail mediaThumbnail : mediaGroup.getThumbnails()) {
 				entryText += "<url>" + mediaThumbnail.getUrl() + "</url>";
-				entryText += "<time_index>" + mediaThumbnail.getTime() + "<time_index>";
+				entryText += "<time_index>" + mediaThumbnail.getTime() + "</time_index>";
 			}
+			entryText += "</thumbnails>";
 			entryText += "<media>";
 			for(YouTubeMediaContent mediaContent : mediaGroup.getYouTubeContents()) {
 				entryText += "<media_location>"+mediaContent.getUrl()+"</media_location>";
 				entryText += "<media_type>"+mediaContent.getType()+"</media_type>";
 				entryText += "<duration>" + mediaContent.getDuration() + "</duration>";
 			}
+			entryText += "</media>";
+			*/
 		}
 		return entryText;
 	}
 
 	public static String FeedToXml(VideoFeed videoFeed){
-		String Xml = "<video_feed>";
+		String Xml = "<table>";
 		List<VideoEntry> videoEntries = videoFeed.getEntries();
 
 		// In case videoFeed is empty
@@ -250,12 +257,12 @@ public class YouTubeClient {
 		}
 		int count = 1;
 		for(VideoEntry ve : videoEntries){
-			Xml += "<entry>";
+			Xml += "<tr>";
 			Xml += XmlEntries("(Video #" + String.valueOf(count) + ")", ve);
-			Xml += "</entry>";
+			Xml += "</tr>";
 			count++;
 		}
-		Xml += "</video_feed>";
+		Xml += "</table>";
 
 		return Xml;
 
