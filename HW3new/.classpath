@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/YouTubeAPI/gdata/java/lib/gdata-client-1.0.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/YouTubeAPI/gdata/java/lib/gdata-client-meta-1.0.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/YouTubeAPI/gdata/java/lib/gdata-core-1.0.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/YouTubeAPI/gdata/java/lib/gdata-media-1.0.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/YouTubeAPI/gdata/java/lib/gdata-youtube-2.0.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/YouTubeAPI/gdata/java/lib/gdata-youtube-meta-2.0.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/YouTubeAPI/javamail-1.4.7/mail.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/YouTubeAPI/gdata/java/deps/guava-11.0.2.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/FreePastry/FreePastry-2.1.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/workspace/HW3/lib/ant.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/workspace/HW3/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/workspace/HW3/lib/FreePastry-2.1.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/workspace/HW3/lib/je-5.0.34.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/workspace/HW3/lib/jtidy-r938.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/workspace/HW3/lib/junit.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/workspace/HW3/lib/log4j-1.2.9.jar"/>
+	<classpathentry kind="lib" path="/Users/ShaH/Documents/workspace/HW3/lib/servlet-api.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
